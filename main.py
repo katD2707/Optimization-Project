@@ -212,116 +212,34 @@ def TS_LNS(N, M, rmvopt, MaxPopSize, MinPopSize, cmb, f, alp, beta, c, n):
     return getFittest(Pop, 1)[0]
 #end function
 
-"""Random datasets generator
+if __name__ == "__main__":
+	#read input
+	with open(filename, 'r') as f:
+		input1 = json.load(f)
+	n, M, d, t = input1['N'], input1['k'], input1['d'], input1['t']
+	
+	#main 
+	N = []
+	for i in range(n):
+	    N.append(i+1)
+	c = np.array(t) + np.array(d)
+	for i in range(c.shape[0]):
+	    c[i][i] = 0
+	c = c.tolist()
+	
+	rmvopt, MaxPopSize, MinPopSize, cmb, f, alp, beta = "rand", 100, 6, "YES", 2, 0.2, 0.4
+	print("running ...")
 
-"""
+	#running algorithm
+	start = time.time()
+	sol = TS_LNS(N, M, rmvopt, MaxPopSize, MinPopSize, cmb, f, alp, beta, c, n)
+	end = time.time()
 
-def gena(N0, K0):
-    d = [0]
-    for i in range(N0):
-        d.append(rd.randint(1, 100))
-    
-    t = []
-    for i in range(N0+1):
-        row = []
-        for j in range(N0+1):
-            if i == j:
-                row.append(0)
-            else:
-                row.append(rd.randint(1,100))
-        t.append(row)
-    c = np.array(t) + np.array(d)
-    c = c.tolist()
-    
-    for i in range(len(c)):
-        c[i][i] = 0
+	#print solution
+	printSolution(sol)
 
-    return t, d, c
-def gens(N0, K0):
-  c = [[0 for i in range(N0+1)] for j in range(N0+1)]
-  for i in range(N0+1):
-    for j in range(N0+1):
-      if i != j:
-        point = rd.randint(1, 100)
-        c[i][j], c[j][i] = point, point
-  return c
-
-"""Datasets lib"""
-
-def datasets(filename):
-    with open(filename) as f:
-        N, M = [int(i) for i in f.readline().split()]
-        d = [0] + [int(i) for i in f.readline().split()]
-        t = []
-        for i in range(N+1):
-            arr = [int(i) for i in f.readline().split()]
-            t.append(arr)
-        c = np.array(t) + np.array(d)
-        c = c.tolist()
-        for i in range(len(c)):
-            c[i][i] = 0
-        return N, M, d, t, c
-
-# if __name__ == "__main__":
-#     case = input("mATSP / mTSP (1/2): ")
-#     combine = input("Combine with LNS:(YES/NO) ")
-#     if case == "1":
-#         n, M = int(input("Number of customers: ")), int(input("Number of salesmen: "))
-#         t, d, c = gena(n, M)
-#         rmvopt = "rand"
-#         alp = .2
-#         beta = .4
-#         # print("Time table for going from point to point: ", end = " ")
-#         # print(np.array(t))
-#         # print("Time for customers: ", end = " ")
-#         # print(np.array(d))
-#     else:
-#         # filename = input("Choose a datasets file: ")
-#         # N, M, d, t, c = datasets(filename)
-#         n, M = int(input("Number of customers: ")), int(input("Number of salesmen: "))
-#         c = gens(n, M)
-#         rmvopt = "proximity"
-#         alp = 1
-#         beta = 4
-#         # print(np.array(c))
-
-#     N = [i+1 for i in range(n)]
-#     node0 = 0
-#     MaxPopSize = 100
-#     MinPopSize = 6    
-#     f = 2
-#     sol = TS_LNS(N, M, rmvopt, node0, MaxPopSize, MinPopSize, combine, f, alp, beta, c, n)
-#     for i in sol:
-#         print(i)
-#     print(worstCost(sol, c))
-
-#datasets
-with open('D:\Programming\Optimization\mini project\my project\datasets\sample05.json', 'r') as f:
-	input1 = json.load(f)
-n, M, d, t = input1['N'], input1['k'], input1['d'], input1['t']
-N = []
-for i in range(n):
-    N.append(i+1)
-c = np.array(t) + np.array(d)
-for i in range(c.shape[0]):
-    c[i][i] = 0
-c = c.tolist()
-node0 = 0
-
-# rmvopt, MaxPopSize, MinPopSize, cmb, f, alp, beta = input("m-TASP(rand)/m-TSP(proximity): "), int(input("Max solution: ")), int(input("Min solution: ")), input("Combine with LNS (YES/NO): "), int(input("Decrement factor: ")), float(input("lower bound: ")), float(input("upper bound: "))
-rmvopt, MaxPopSize, MinPopSize, cmb, f, alp, beta = "rand", 100, 6, "YES", 2, 0.2, 0.4
-print("running ...")
-
-#running algorithm
-start = time.time()
-sol = TS_LNS(N, M, rmvopt, MaxPopSize, MinPopSize, cmb, f, alp, beta, c, n)
-end = time.time()
-
-#print solution
-printSolution(sol)
-
-#print the slowest path
-print("Worst cost: %d"%worstCost(sol, c)) 
-print("Running time: %.8f"%(end-start))       
+	#print the slowest path
+	print("Worst cost: %d"%worstCost(sol, c)) 
+	print("Running time: %.8f"%(end-start))       
 
 

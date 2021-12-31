@@ -15,3 +15,9 @@ Problem: Allocate work to workers
 
 
 Code and idea based mostly from the paper "Tournament Selection Algorithm for the Multiple Travelling Salesman Problem" of Giorgos Polychronis & Spyros Lalis with some adjustments and comments.
+Refer link: "https://www.scitepress.org/Papers/2020/95649/95649.pdf"
+
+#comment
+Overall, this is a really nice algorithm, with just tournament selection, it already found better solution than any others algorithms in our class.
+With large neighborhood search, even though after changing mutation coefficient many times, it still could't find better solution for which gains from tournament selection, every genres created by mutations are always worse than that of initial solution.
+So I conclude that each solution from TS is already a best gen of itself.

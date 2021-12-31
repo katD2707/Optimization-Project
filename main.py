@@ -5,26 +5,7 @@ import numpy as np
 import time
 import json
 
-"""Overall idea: 
-1. Create a list Pop with MaxPopSize initial solutions
-- Each solution contains of M route of salesmen.
-- Updated solution created by removing some nodes from list of nodes, then re-insert it in random route by function *insert* in order to find a better solution.
-- Sorting Pop by worst cost of each solution with function *PopSorted*.
-2. From Pop, keep (size(Pop)/f) best solutions from Pop
-- f is a value that we decided. 
-I.e: f = 2, MaxPopSize = 100 then keep 50 best solutions.
-3. From each remaining solutions, perform it with LNS algorithm to find even better solution
-- LNS: Perform (nofmutations) mutations by removing some random nodes from solutions then re-insert it in the solution again, if it's better update this solution as new solution.
-- Two different ways to remove nodes: 
 
-If the problem is m-ATSP (general case) then we use function *RmvR*, pick a random number of nodes from alp.N to beta.N.
-
-If the problem is m-ATSP (direct case) then we use function *RmvP*, pick some seeds from N, then choose some nodes nearest to each seed and remove from solution, include seed itself, total number of remove nodes is random from alp.sqrt(N) to beta.sqrt(N), since it's more targerted.
-
-alp and beta are values we decide.
-4. We start with an initial number of mutations which we decide, then after each iteration, while the size of Pop decrease, we also increase the number of mutations.
-5. When the size of Pop go below MinPopSize, return the best solution from remaning solutions in Pop.
-"""
 # print solution
 def printSolution(sol):
     for i in range(len(sol)):
